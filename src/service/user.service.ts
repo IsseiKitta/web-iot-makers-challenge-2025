@@ -1,0 +1,21 @@
+// ユーザー関連のロジック
+
+import prisma from "@/lib/prisma";
+import type { User } from "@prisma/client";
+import { hashPassword, comparePasswords } from "@/utils/auth";
+
+export const userService = {
+  authenticate: async (username: string, password: string) => {
+    const user = await prisma.findUnique({
+      where: { username },
+    });
+
+    if (!user) return null;
+
+    const passwordMatch = await comparePasswords(password, user.password_hash);
+    if (!passwordMatch) return null;
+
+    const { password_hash, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  },
+};
