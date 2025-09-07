@@ -15,14 +15,12 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/jsonwebtoken": "^9.0.10",
+    "@prisma/client": "^6.15.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "argon2": "^0.44.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
-    "jsonwebtoken": "^9.0.2",
     "prisma": "^6.15.0",
     "typescript": "^5"
   }
