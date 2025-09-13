@@ -23,7 +23,7 @@ export const users = async (prisma: PrismaClient) => {
     createUsers.push(
       prisma.user.create({
         data: {
-          name: username,
+          username: username,
           password_hash: hashedPassword,
         },
       })
