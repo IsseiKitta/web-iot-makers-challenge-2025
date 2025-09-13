@@ -13,7 +13,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Users {
+model User {
   id              Int       @id @default(autoincrement())
   name            String
   password_hash   String    @unique
@@ -21,7 +21,7 @@ model Users {
   updatedAt       DateTime  @updatedAt
 } 
 
-model Devices {
+model Device {
   id              Int         @id @default(autoincrement())
   name            String
   isOpen          Boolean

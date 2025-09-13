@@ -4,7 +4,7 @@ import * as argon2 from "argon2";
 export const users = async (prisma: PrismaClient) => {
   console.log("Usersテーブルにseedデータ挿入中...");
 
-  await prisma.users.deleteMany();
+  await prisma.user.deleteMany();
 
   const hashOptions = {
     type: argon2.argon2id,
@@ -18,10 +18,10 @@ export const users = async (prisma: PrismaClient) => {
     const username = `admin${i}`;
     const password = `password${i}`;
 
-    const hashedPassword = argon2.hash(password, hashOptions);
+    const hashedPassword = await argon2.hash(password, hashOptions);
 
     createUsers.push(
-      prisma.users.create({
+      prisma.user.create({
         data: {
           name: username,
           password_hash: hashedPassword,

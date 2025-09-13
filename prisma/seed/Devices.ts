@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 export const devices = async (prisma: PrismaClient) => {
   console.log("Devicesテーブルにseedデータ挿入中...");
 
-  await prisma.users.deleteMany();
+  await prisma.device.deleteMany();
 
   const deviceData = [
     {
@@ -54,7 +54,7 @@ export const devices = async (prisma: PrismaClient) => {
   ];
 
   const createDevices = deviceData.map((data) =>
-    prisma.devices.create({
+    prisma.device.create({
       data,
     })
   );
