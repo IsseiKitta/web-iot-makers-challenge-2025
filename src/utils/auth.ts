@@ -28,14 +28,14 @@ export async function comparePasswords(
 }
 
 export function generateToken(userId: number): string {
-  return jwt.sign({ id: userId }, "default_secret", {
+  return jwt.sign({ id: userId }, JWT_SECRET, {
     expiresIn: "1h",
   });
 }
 
 export function verifyToken(token: string): { id: number } | null {
   try {
-    const decoded = jwt.verify(token, "default_secret") as { id: number };
+    const decoded = jwt.verify(token, JWT_SECRET) as { id: number };
     return decoded;
   } catch (error) {
     return null;
