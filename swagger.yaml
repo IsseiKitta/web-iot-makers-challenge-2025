@@ -30,7 +30,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Devices"
+                  $ref: "#/components/schemas/Device"
 
   /devices/register:
     post:
