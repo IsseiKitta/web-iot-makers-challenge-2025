@@ -30,7 +30,7 @@ model Devices {
   latitude        Float
   longitude       Float
   isOpen          Boolean       
-  userId          Int           @relation(fields: [userId], references: [id]) // 外部キー指定
-  user            Users
+  userId          String          
+  user            Users         @relation(fields: [userId], references: [id])
   createdAt       DateTime      @default(now())
 }
