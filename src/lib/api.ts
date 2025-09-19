@@ -1,4 +1,4 @@
-import { AuthRequest, AuthResponse } from "@/types/api";
+import { AuthRequest, AuthResponse, Device, DeviceToggleResponse } from "@/types/api";
 
 const API_BASE_URL = "/api";
 
@@ -66,4 +66,33 @@ export function saveUserId(userId: number): void {
 export function getUserId(): number | null {
   const userId = localStorage.getItem("userId");
   return userId ? parseInt(userId, 10) : null;
+}
+
+export async function getDevices(userId: number): Promise<Device[]> {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error("認証トークンがありません");
+  }
+
+  return apiRequest<Device[]>(`/devices?userId=${userId}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+}
+
+export async function toggleDevice(deviceId: number, open: boolean): Promise<DeviceToggleResponse> {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error("認証トークンがありません");
+  }
+
+  return apiRequest<DeviceToggleResponse>("/devices/toggle", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ deviceId, open }),
+  });
 }
