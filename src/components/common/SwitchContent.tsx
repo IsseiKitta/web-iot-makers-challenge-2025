@@ -1,5 +1,5 @@
 import ContentCard from "./ContentCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { getDevices } from "@/lib/api";
 
@@ -23,13 +23,7 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
   const [loading, setLoading] = useState(true);
   const { userId, logout } = useAuth();
 
-  useEffect(() => {
-    if (userId && (activeTab === "home" || activeTab === "temperature")) {
-      loadDevices();
-    }
-  }, [userId, activeTab]);
-
-  const loadDevices = async () => {
+  const loadDevices = useCallback(async () => {
     if (!userId) return;
 
     try {
@@ -41,7 +35,13 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId && (activeTab === "home" || activeTab === "temperature")) {
+      loadDevices();
+    }
+  }, [userId, activeTab, loadDevices]);
 
   switch (activeTab) {
     case "home":

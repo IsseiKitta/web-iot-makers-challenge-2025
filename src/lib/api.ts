@@ -1,4 +1,4 @@
-import { AuthRequest, AuthResponse } from "@/types/api";
+import { AuthRequest, AuthResponse, Device, DeviceToggleResponse } from "@/types/api";
 
 const API_BASE_URL = "/api";
 
@@ -68,13 +68,13 @@ export function getUserId(): number | null {
   return userId ? parseInt(userId, 10) : null;
 }
 
-export async function getDevices(userId: number): Promise<any[]> {
+export async function getDevices(userId: number): Promise<Device[]> {
   const token = getAuthToken();
   if (!token) {
     throw new Error("認証トークンがありません");
   }
 
-  return apiRequest<any[]>(`/devices?userId=${userId}`, {
+  return apiRequest<Device[]>(`/devices?userId=${userId}`, {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${token}`,
@@ -82,13 +82,13 @@ export async function getDevices(userId: number): Promise<any[]> {
   });
 }
 
-export async function toggleDevice(deviceId: number, open: boolean): Promise<any> {
+export async function toggleDevice(deviceId: number, open: boolean): Promise<DeviceToggleResponse> {
   const token = getAuthToken();
   if (!token) {
     throw new Error("認証トークンがありません");
   }
 
-  return apiRequest<any>("/devices/toggle", {
+  return apiRequest<DeviceToggleResponse>("/devices/toggle", {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${token}`,
