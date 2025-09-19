@@ -34,16 +34,18 @@ POSTGRES_DATABASE="database"
 
 ### 3. Prisma設定
 
-Prismaスキーマは既にVercel環境変数に対応しています：
+PrismaはシンプルにDATABASE_URLを使用します：
 
 ```prisma
 datasource db {
   provider = "postgresql"
-  // Vercel Postgres uses POSTGRES_PRISMA_URL by default
-  // Falls back to DATABASE_URL for local development
-  url      = env("POSTGRES_PRISMA_URL") != "" ? env("POSTGRES_PRISMA_URL") : env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 ```
+
+**重要**: Vercelは自動的に`DATABASE_URL`を`POSTGRES_PRISMA_URL`の値で上書きします。
+- **ローカル開発**: `DATABASE_URL`にDocker PostgreSQLのURLを設定
+- **Vercel本番**: `DATABASE_URL`が自動的に`POSTGRES_PRISMA_URL`になる
 
 ## 環境変数の優先順位
 
