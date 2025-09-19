@@ -16,27 +16,28 @@ export async function POST(req: Request) {
       );
     }
 
-    // ユーザー名の重複チェック
-    const existingUser = await prisma.user.findUnique({
+    // ユーザーを検索
+    const user = await prisma.user.findUnique({
       where: { name: username },
     });
 
-    if (existingUser) {
+    if (!user) {
       return NextResponse.json(
-        { error: "Username already exists" },
-        { status: 409 }
+        { error: "Invalid username or password" },
+        { status: 401 }
       );
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    // パスワードを確認
+    const isValidPassword = await bcrypt.compare(password, user.password_hash);
+    if (!isValidPassword) {
+      return NextResponse.json(
+        { error: "Invalid username or password" },
+        { status: 401 }
+      );
+    }
 
-    const user = await prisma.user.create({
-      data: {
-        name: username,
-        password_hash: passwordHash,
-      },
-    });
-
+    // JWTトークンを生成
     const token = generateToken(user.id);
 
     const response: AuthResponse = {
@@ -44,9 +45,9 @@ export async function POST(req: Request) {
       userId: user.id,
     };
 
-    return NextResponse.json(response, { status: 201 });
+    return NextResponse.json(response, { status: 200 });
   } catch (err) {
-    console.error("Signup error:", err);
+    console.error("Login error:", err);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

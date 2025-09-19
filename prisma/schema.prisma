@@ -13,16 +13,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Users {
+model User {
   id              String        @id @default(uuid())
   name            String        @unique
   password_hash   String    
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  devices         Devices[]
+  devices         Device[]
 } 
 
-model Devices { 
+model Device { 
   id              String        @id @default(uuid())
   name            String        @unique
   temperature     Float         
@@ -31,6 +31,6 @@ model Devices {
   longitude       Float
   isOpen          Boolean       
   userId          String          
-  user            Users         @relation(fields: [userId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
   createdAt       DateTime      @default(now())
 }
