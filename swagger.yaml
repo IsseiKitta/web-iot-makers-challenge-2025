@@ -1,0 +1,263 @@
+openapi: 3.0.1
+info:
+  title: Web IoT Makers Challenge
+  description: メイカーズチャレンジのアプリケーションサーバーのエンドポイント
+  version: "1.0.0"
+servers:
+  - url: http://localhost:3000/api
+    description: Local server
+
+paths:
+  /devices:
+    get:
+      summary: デバイス情報の取得
+      security:
+        - bearerAuth: []
+      description: ユーザーが持つすべてのデバイスの温度、湿度、開閉の情報をユーザーIDで取得する
+      parameters:
+        - name: "userId"
+          in: "query"
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: デバイス情報のリスト
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Device"
+
+  /devices/register:
+    post:
+      summary: デバイス情報を登録
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceRegisterRequest"
+      responses:
+        201:
+          description: デバイス登録成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Device"
+
+  /devices/toggle:
+    post:
+      summary: 傘を開く/閉じる
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceToggleRequest"
+      responses:
+        200:
+          description: 操作成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  isOpen:
+                    type: boolean
+                    example: true
+  /devices/state:
+    post:
+      summary: デバイス状態の送信と開閉状態の取得
+      description: デバイスが自身の温湿度や位置情報をサーバーに送信し、サーバーから現在の開閉状態を受け取る
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceStateRequest"
+      responses:
+        200:
+          description: 現在の開閉状態
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  isOpen:
+                    type: boolean
+                    example: false
+
+  /auth/signup:
+    post:
+      summary: ユーザー登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRequest"
+      responses:
+        201:
+          description: 登録成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /auth/login:
+    post:
+      summary: ログイン
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRequest"
+      responses:
+        200:
+          description: ログイン成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AuthRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+      required:
+        - username
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWTトークン
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        userId:
+          type: integer
+          example: 1
+
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          example: 1
+          description: Unique identifier for the user.
+        username:
+          type: string
+          example: "user-123"
+          description: Name of the user.
+
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          example: 1
+        devicename:
+          type: string
+          example: "umbrella A"
+        temperature:
+          type: number
+          format: float
+          example: 24.5
+        humidity:
+          type: number
+          format: float
+          example: 60.2
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        isOpen:
+          type: boolean
+          example: false
+        userId:
+          type: integer
+          example: 1
+
+    DeviceRegisterRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+          example: 1
+        deviceName:
+          type: string
+          example: "Living room sensor"
+      required:
+        - userId
+        - deviceName
+
+    DeviceToggleRequest:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          example: 1
+        open:
+          type: boolean
+          example: true
+      required:
+        - deviceId
+        - open
+
+    DeviceStateRequest:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          example: 1
+        temperature:
+          type: number
+          format: float
+          example: 23.4
+        humidity:
+          type: number
+          format: float
+          example: 55.2
+        latitude:
+          type: number
+          format: float
+          example: 35.6812
+        longitude:
+          type: number
+          format: float
+          example: 139.7671
+      required:
+        - deviceId
+        - temperature
+        - humidity
+        - latitude
+        - longitude
