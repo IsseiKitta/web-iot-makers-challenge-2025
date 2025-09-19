@@ -67,3 +67,32 @@ export function getUserId(): number | null {
   const userId = localStorage.getItem("userId");
   return userId ? parseInt(userId, 10) : null;
 }
+
+export async function getDevices(userId: number): Promise<any[]> {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error("認証トークンがありません");
+  }
+
+  return apiRequest<any[]>(`/devices?userId=${userId}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+}
+
+export async function toggleDevice(deviceId: number, open: boolean): Promise<any> {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error("認証トークンがありません");
+  }
+
+  return apiRequest<any>("/devices/toggle", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ deviceId, open }),
+  });
+}

@@ -38,7 +38,7 @@ export default function Home() {
       <Header />
 
       {/* Main Content */}
-      <div className="flex-1 flex justify-center items-center p-2">
+      <div className="flex-1 flex justify-center p-2">
         <SwitchContent activeTab={activeTab} />
       </div>
 
