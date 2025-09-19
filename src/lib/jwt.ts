@@ -7,7 +7,7 @@ export function generateToken(userId: number) {
 export function verifyToken(token: string) {
   try {
     return jwt.verify(token, process.env.JWT_SECRET!);
-  } catch (err) {
+  } catch {
     return null; // 失敗時
   }
 }

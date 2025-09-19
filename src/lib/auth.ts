@@ -14,7 +14,7 @@ export function getUserIdFromToken(token: string): number | null {
   if (!decoded || typeof decoded === "string") {
     return null;
   }
-  return (decoded as any).userId;
+  return (decoded as { userId: number }).userId;
 }
 
 export function authenticateRequest(request: NextRequest): number | null {
