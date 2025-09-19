@@ -1,3 +1,5 @@
+import ContentCard from "./ContentCard";
+
 interface SwitchContentProps {
   activeTab: "home" | "temperature" | "location";
 }
@@ -14,45 +16,8 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
           </div>
 
           <div className="w-full flex flex-col gap-[34px] px-14">
-            {/* パラソルA */}
-            <div className="w-full bg-[#4E4E4E] rounded-[20px] p-[10px] h-[125px] flex flex-col gap-[9px]">
-              <div className="flex justify-center items-center gap-[10px] p-[5px] w-[104px]">
-                <span className="text-white font-bold text-[18px] leading-[1.21]">
-                  パラソルA
-                </span>
-              </div>
-
-              <div className="flex-1 flex justify-center items-center p-[10px]">
-                <div className="flex gap-0">
-                  <button className="w-[110px] bg-[#4360F0] text-[#FFF4F4] font-bold text-[13px] leading-[1.21] py-[14px] px-[10px] rounded-l-[10px]">
-                    OPEN
-                  </button>
-                  <button className="w-[110px] bg-[#606165] text-[#FFF4F4] font-bold text-[13px] leading-[1.21] py-[14px] px-[10px] rounded-r-[10px]">
-                    CLOSE
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* パラソルB */}
-            <div className="w-full bg-[#4E4E4E] rounded-[20px] p-[10px] h-[125px] flex flex-col gap-[9px]">
-              <div className="flex justify-center items-center gap-[10px] p-[5px] w-[104px]">
-                <span className="text-white font-bold text-[18px] leading-[1.21]">
-                  パラソルB
-                </span>
-              </div>
-
-              <div className="flex-1 flex justify-center items-center p-[10px]">
-                <div className="flex gap-0">
-                  <button className="w-[110px] bg-[#4360F0] text-[#FFF4F4] font-bold text-[13px] leading-[1.21] py-[14px] px-[10px] rounded-l-[10px]">
-                    OPEN
-                  </button>
-                  <button className="w-[110px] bg-[#606165] text-[#FFF4F4] font-bold text-[13px] leading-[1.21] py-[14px] px-[10px] rounded-r-[10px]">
-                    CLOSE
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ContentCard name="パラソルA" initialState="open" />
+            <ContentCard name="パラソルB" initialState="close" />
           </div>
         </div>
       );

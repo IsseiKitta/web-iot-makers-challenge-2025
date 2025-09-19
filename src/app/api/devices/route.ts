@@ -25,8 +25,17 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // userIdをintegerに変換
+    const userId = parseInt(userIdParam, 10);
+    if (isNaN(userId)) {
+      return NextResponse.json(
+        { error: "Invalid userId format" },
+        { status: 400 }
+      );
+    }
+
     // 認証されたユーザーが要求されたユーザーIDと一致するかチェック
-    if (authenticatedUserId !== userIdParam) {
+    if (authenticatedUserId !== userId) {
       return NextResponse.json(
         { error: "Forbidden: You can only access your own devices" },
         { status: 403 }
@@ -36,7 +45,7 @@ export async function GET(request: NextRequest) {
     // ユーザーのデバイス一覧を取得
     const devices = await prisma.device.findMany({
       where: {
-        userId: userIdParam,
+        userId: userId,
       },
       select: {
         id: true,

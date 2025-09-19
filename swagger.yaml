@@ -19,8 +19,7 @@ paths:
           in: "query"
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
 
       responses:
         200:
@@ -76,6 +75,30 @@ paths:
                   isOpen:
                     type: boolean
                     example: true
+  /devices/state:
+    post:
+      summary: デバイス状態の送信と開閉状態の取得
+      description: デバイスが自身の温湿度や位置情報をサーバーに送信し、サーバーから現在の開閉状態を受け取る
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceStateRequest"
+      responses:
+        200:
+          description: 現在の開閉状態
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  isOpen:
+                    type: boolean
+                    example: false
 
   /auth/signup:
     post:
@@ -139,17 +162,15 @@ components:
           description: JWTトークン
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
         userId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          type: integer
+          example: 1
 
     User:
       type: object
       properties:
         userId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          type: integer
+          example: 1
           description: Unique identifier for the user.
         username:
           type: string
@@ -160,9 +181,8 @@ components:
       type: object
       properties:
         deviceId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          type: integer
+          example: 1
         devicename:
           type: string
           example: "umbrella A"
@@ -184,17 +204,15 @@ components:
           type: boolean
           example: false
         userId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          type: integer
+          example: 1
 
     DeviceRegisterRequest:
       type: object
       properties:
         userId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          type: integer
+          example: 1
         deviceName:
           type: string
           example: "Living room sensor"
@@ -206,12 +224,40 @@ components:
       type: object
       properties:
         deviceId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
+          type: integer
+          example: 1
         open:
           type: boolean
           example: true
       required:
         - deviceId
         - open
+
+    DeviceStateRequest:
+      type: object
+      properties:
+        deviceId:
+          type: integer
+          example: 1
+        temperature:
+          type: number
+          format: float
+          example: 23.4
+        humidity:
+          type: number
+          format: float
+          example: 55.2
+        latitude:
+          type: number
+          format: float
+          example: 35.6812
+        longitude:
+          type: number
+          format: float
+          example: 139.7671
+      required:
+        - deviceId
+        - temperature
+        - humidity
+        - latitude
+        - longitude

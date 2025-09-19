@@ -9,7 +9,7 @@ export function getTokenFromRequest(request: NextRequest): string | null {
   return authHeader.substring(7);
 }
 
-export function getUserIdFromToken(token: string): string | null {
+export function getUserIdFromToken(token: string): number | null {
   const decoded = verifyToken(token);
   if (!decoded || typeof decoded === "string") {
     return null;
@@ -17,7 +17,7 @@ export function getUserIdFromToken(token: string): string | null {
   return (decoded as any).userId;
 }
 
-export function authenticateRequest(request: NextRequest): string | null {
+export function authenticateRequest(request: NextRequest): number | null {
   const token = getTokenFromRequest(request);
   if (!token) {
     return null;

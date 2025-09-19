@@ -7,32 +7,32 @@ export interface AuthRequest {
 
 export interface AuthResponse {
   token: string;
-  userId: string;
+  userId: number;
 }
 
 export interface User {
-  userId: string;
+  userId: number;
   username: string;
 }
 
 export interface Device {
-  deviceId: string;
+  deviceId: number;
   devicename: string;
   temperature: number;
   humidity: number;
   latitude: number;
   longitude: number;
   isOpen: boolean;
-  userId: string;
+  userId: number;
 }
 
 export interface DeviceRegisterRequest {
-  userId: string;
+  userId: number;
   deviceName: string;
 }
 
 export interface DeviceToggleRequest {
-  deviceId: string;
+  deviceId: number;
   open: boolean;
 }
 
