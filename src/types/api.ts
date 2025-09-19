@@ -40,3 +40,16 @@ export interface DeviceToggleResponse {
   success: boolean;
   isOpen: boolean;
 }
+
+export interface DeviceStateRequest {
+  deviceId: number;
+  temperature: number;
+  humidity: number;
+  latitude: number;
+  longitude: number;
+}
+
+export interface DeviceStateResponse {
+  success: boolean;
+  isOpen: boolean;
+}

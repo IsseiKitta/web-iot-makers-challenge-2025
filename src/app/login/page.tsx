@@ -48,14 +48,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#282828] flex flex-col items-center justify-start px-0 py-[10px] text-white">
+    <div className="min-h-screen flex flex-col w-[500px] mx-auto text-white bg-[#282828]">
       {/* Header */}
       <Header />
       {/* Login Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="w-[320px] flex flex-col items-center gap-5 px-[19px] py-3"
-      >
+      <div className="flex-1 flex justify-center items-center p-2">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-[320px] flex flex-col items-center gap-5 px-[19px] py-3"
+        >
         {/* Form Title */}
         <div className="flex justify-center items-center gap-[10px] p-[10px]">
           <h2 className="text-white text-center text-base font-bold leading-[1.21]">
@@ -116,7 +117,8 @@ export default function LoginPage() {
             </a>
           </span>
         </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
