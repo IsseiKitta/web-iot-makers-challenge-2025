@@ -1,8 +1,9 @@
 import ContentCard from "./ContentCard";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { getDevices } from "@/lib/api";
+import { getDevices, getWeatherData } from "@/lib/api";
 import GetWeatherInfo from "./GetWeatherInfo";
+import { WeatherData } from "@/types/api";
 
 interface SwitchContentProps {
   activeTab: "home" | "temperature" | "location";
@@ -21,7 +22,9 @@ interface Device {
 
 export default function SwitchContent({ activeTab }: SwitchContentProps) {
   const [devices, setDevices] = useState<Device[]>([]);
+  const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [weatherLoading, setWeatherLoading] = useState(true);
   const { userId, logout } = useAuth();
 
   const loadDevices = useCallback(async () => {
@@ -38,11 +41,28 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
     }
   }, [userId]);
 
+  const loadWeatherData = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      setWeatherLoading(true);
+      const response = await getWeatherData(userId);
+      setWeatherData(response.data);
+    } catch (error) {
+      console.error("天気データ取得エラー:", error);
+    } finally {
+      setWeatherLoading(false);
+    }
+  }, [userId]);
+
   useEffect(() => {
     if (userId && (activeTab === "home" || activeTab === "temperature")) {
       loadDevices();
     }
-  }, [userId, activeTab, loadDevices]);
+    if (userId && activeTab === "location") {
+      loadWeatherData();
+    }
+  }, [userId, activeTab, loadDevices, loadWeatherData]);
 
   switch (activeTab) {
     case "home":
@@ -149,15 +169,26 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
         <div className="flex-1 flex flex-col items-center mt-5">
           <div>
             <h2 className="text-white font-bold text-[25px] leading-[1.21] mb-7">
-              位置情報
+              天気予報
             </h2>
           </div>
-          <GetWeatherInfo
-            deviceName="dd"
-            temperature="22"
-            location="Suzaka, Nagano"
-            weatherType="sunny"
-          />
+          <div className="flex flex-wrap justify-center gap-4 max-w-4xl">
+            {weatherLoading ? (
+              <div className="text-white">読み込み中...</div>
+            ) : weatherData.length > 0 ? (
+              weatherData.map((weather) => (
+                <GetWeatherInfo
+                  key={weather.deviceId}
+                  deviceName={weather.deviceName}
+                  rainfall={weather.rainfall}
+                  location={weather.location}
+                  weatherType={weather.weatherType}
+                />
+              ))
+            ) : (
+              <div className="text-white">天気データがありません</div>
+            )}
+          </div>
         </div>
       );
 

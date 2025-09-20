@@ -53,3 +53,19 @@ export interface DeviceStateResponse {
   success: boolean;
   isOpen: boolean;
 }
+
+export interface WeatherData {
+  deviceId: number;
+  deviceName: string;
+  rainfall: string;
+  location: string;
+  weatherType: "Sunny" | "cloudy" | "rainy";
+  latitude: number;
+  longitude: number;
+}
+
+export interface WeatherResponse {
+  success: boolean;
+  data: WeatherData[];
+  message: string;
+}

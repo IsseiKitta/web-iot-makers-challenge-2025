@@ -1,4 +1,4 @@
-import { AuthRequest, AuthResponse, Device, DeviceToggleResponse } from "@/types/api";
+import { AuthRequest, AuthResponse, Device, DeviceToggleResponse, WeatherResponse } from "@/types/api";
 
 const API_BASE_URL = "/api";
 
@@ -94,5 +94,19 @@ export async function toggleDevice(deviceId: number, open: boolean): Promise<Dev
       "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify({ deviceId, open }),
+  });
+}
+
+export async function getWeatherData(userId: number): Promise<WeatherResponse> {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error("認証トークンがありません");
+  }
+
+  return apiRequest<WeatherResponse>(`/weather?userId=${userId}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
   });
 }
