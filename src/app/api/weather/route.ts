@@ -12,27 +12,6 @@ interface WeatherData {
   longitude: number;
 }
 
-// Yahoo Weather APIのコンディションを3種類にマッピング
-function mapWeatherCondition(
-  weatherCode: number
-): "Sunny" | "cloudy" | "rainy" {
-  // Yahoo Weather APIの天気コード
-  // 100-199: 晴れ系
-  // 200-299: 曇り系
-  // 300-499: 雨・雪系
-
-  if (weatherCode >= 300 && weatherCode <= 499) {
-    return "rainy";
-  }
-
-  if (weatherCode >= 200 && weatherCode <= 299) {
-    return "cloudy";
-  }
-
-  // 100-199は晴れ、その他もデフォルトで晴れ
-  return "Sunny";
-}
-
 export async function GET(request: NextRequest) {
   try {
     // JWT認証
