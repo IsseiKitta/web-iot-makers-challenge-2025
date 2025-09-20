@@ -3,72 +3,53 @@ import React from "react";
 
 interface WeatherInfoCardProps {
   deviceName: string;
-  temperature: string;
+  rainfall: string;
   location: string;
-  weatherType: "sunny" | "cloudy" | "rainy";
+  weatherType: "Sunny" | "cloudy" | "rainy";
 }
 
 const GetWeatherInfo: React.FC<WeatherInfoCardProps> = ({
   deviceName,
-  temperature,
+  rainfall,
   location,
   weatherType,
 }) => {
   const getWeatherIcon = () => {
-    switch (weatherType) {
-      case "sunny":
-        return (
-          <Image
-            src={"public/sun-solid-full.svg"}
-            alt={"Sunny Icon"}
-            width={500}
-            height={500}
-          ></Image>
-        );
-      case "cloudy":
-        return <div></div>;
-      case "rainy":
-        return <div></div>;
-      default:
-        return (
-          <Image
-            src={"public/sun-solid-full.svg"}
-            alt={"Sunny Icon"}
-            width={500}
-            height={500}
-          ></Image>
-        );
-    }
+    const iconConfig = {
+      Sunny: { src: "/sun-solid-full.svg", alt: "晴れ" },
+      cloudy: { src: "/cloud-solid-full.svg", alt: "曇り" },
+      rainy: { src: "/droplet-solid-full.svg", alt: "雨" },
+    };
+
+    const config = iconConfig[weatherType] || iconConfig.Sunny;
+
+    return (
+      <Image
+        src={config.src}
+        alt={config.alt}
+        width={48}
+        height={48}
+        className="w-12 h-12"
+      />
+    );
   };
 
   return (
-    <div className="bg-[#4E4E4E] rounded-[10px] p-[9px_6px] text-white w-[246px] h-[190px] flex flex-col relative">
-      <div className="absolute top-[9px] right-[6px] w-[134px] flex justify-center items-center p-[10px_0px]">
-        <span className="font-inter font-bold text-[13px] leading-[1.21] text-center">
-          1時間後の天気
-        </span>
+    <div className="bg-gradient-to-br from-gray-600 to-gray-700 rounded-xl p-4 text-white min-w-[200px] max-w-[390px] w-full shadow-lg hover:shadow-xl transition-shadow duration-300 mb-7">
+      <div className="flex justify-between items-start mb-3">
+        <div className="flex-1">
+          <p className="text-xs opacity-80 mb-1">1時間後の天気</p>
+          <h3 className="font-bold text-lg leading-tight">{deviceName}</h3>
+        </div>
+        <div className="flex-shrink-0 ml-3">{getWeatherIcon()}</div>
       </div>
 
-      <div className="flex justify-center items-center p-[5px_0px] h-[32px]">
-        <span className="font-inter font-bold text-[17px] leading-[1.21] text-center">
-          {deviceName}
-        </span>
+      <div className="text-center mb-10">
+        <span className="text-7xl font-bold">{rainfall}</span>
       </div>
 
-      <div className="flex justify-center items-center p-[10px_10px_30px_25px] h-[84px]">
-        <span className="font-inter font-bold text-[30px] leading-[1.21] text-center">
-          {temperature}
-        </span>
-      </div>
-
-      <div className="absolute top-[84px] right-[22px] flex justify-center items-center p-[0px_10px_10px] w-[70px] h-[70px]">
-        {getWeatherIcon()}
-      </div>
-
-      <div className="flex justify-center items-center p-[25px_53px_5px] mt-[10px]">
-        <span className="font-inter font-bold text-[15px] leading-[1.21] text-center">
-          {location}
-        </span>
+      <div className="text-center">
+        <p className="text-1xl opacity-90">{location}</p>
       </div>
     </div>
   );

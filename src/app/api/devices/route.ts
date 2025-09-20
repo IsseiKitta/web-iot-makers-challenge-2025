@@ -8,10 +8,7 @@ export async function GET(request: NextRequest) {
     // JWT認証
     const authenticatedUserId = authenticateRequest(request);
     if (!authenticatedUserId) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // クエリパラメータからuserIdを取得
@@ -56,6 +53,9 @@ export async function GET(request: NextRequest) {
         longitude: true,
         isOpen: true,
         userId: true,
+      },
+      orderBy: {
+        id: "asc",
       },
     });
 
