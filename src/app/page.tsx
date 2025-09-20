@@ -22,8 +22,8 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#282828] flex justify-center items-center">
-        <div className="text-white text-lg">読み込み中...</div>
+      <div className="min-h-screen bg-background flex justify-center items-center">
+        <div className="text-foreground text-lg">読み込み中...</div>
       </div>
     );
   }
@@ -33,12 +33,12 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col w-[500px] mx-auto text-white bg-[#282828]">
+    <div className="min-h-screen flex flex-col w-full max-w-md mx-auto text-foreground bg-background">
       {/* Header */}
       <Header />
 
       {/* Main Content */}
-      <div className="flex-1 flex justify-center p-2">
+      <div className="flex-1 flex justify-center p-4">
         <SwitchContent activeTab={activeTab} />
       </div>
 
