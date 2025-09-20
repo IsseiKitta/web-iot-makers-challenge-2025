@@ -2,6 +2,7 @@ import ContentCard from "./ContentCard";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { getDevices } from "@/lib/api";
+import GetWeatherInfo from "./GetWeatherInfo";
 
 interface SwitchContentProps {
   activeTab: "home" | "temperature" | "location";
@@ -89,7 +90,7 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
 
     case "temperature":
       return (
-        <div className="flex-1 flex flex-col justify-center gap-5">
+        <div className="flex-1 flex flex-col gap-5 w-[500px] mt-5">
           <div className="flex justify-center gap-[10px] p-[15px] pb-[10px]">
             <h2 className="text-white font-bold text-[25px] leading-[1.21]">
               パラソルの状態
@@ -103,16 +104,16 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
               <table className="border-collapse">
                 <thead>
                   <tr>
-                    <th className="w-[70px] h-[22px] bg-[#4360F0] border border-white text-white font-bold text-[9px] leading-[1.21] p-[7px]">
+                    <th className="w-[110px] h-[35px] bg-[#4360F0] border border-white text-white font-bold text-[17px] leading-[1.21] p-[7px]">
                       パラソル名
                     </th>
-                    <th className="w-[70px] h-[22px] bg-[#4360F0] border border-white text-white font-bold text-[9px] leading-[1.21] p-[7px]">
+                    <th className="w-[110px] h-[35px] bg-[#4360F0] border border-white text-white font-bold text-[17px] leading-[1.21] p-[7px]">
                       温度
                     </th>
-                    <th className="w-[70px] h-[22px] bg-[#4360F0] border border-white text-white font-bold text-[9px] leading-[1.21] p-[7px]">
+                    <th className="w-[110px] h-[35px] bg-[#4360F0] border border-white text-white font-bold text-[17px] leading-[1.21] p-[7px]">
                       湿度
                     </th>
-                    <th className="w-[70px] h-[22px] bg-[#4360F0] border border-white text-white font-bold text-[9px] leading-[1.21] p-[7px]">
+                    <th className="w-[110px] h-[35px] bg-[#4360F0] border border-white text-white font-bold text-[17px] leading-[1.21] p-[7px]">
                       状態
                     </th>
                   </tr>
@@ -120,16 +121,16 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
                 <tbody>
                   {devices.map((device) => (
                     <tr key={device.deviceId}>
-                      <td className="w-[70px] border border-white text-center text-white font-bold text-[9px] leading-[1.21] p-[5px]">
+                      <td className="w-[110px] h-[35px] border border-white text-center text-white font-bold text-[17px] leading-[1.21] p-[5px]">
                         {device.devicename}
                       </td>
-                      <td className="w-[70px] border border-white text-center text-white font-bold text-[9px] leading-[1.21] p-[5px]">
+                      <td className="w-[110px] h-[35px] border border-white text-center text-white font-bold text-[17px] leading-[1.21] p-[5px]">
                         {Math.round(device.temperature)}°
                       </td>
-                      <td className="w-[70px] border border-white text-center text-white font-bold text-[9px] leading-[1.21] p-[5px]">
+                      <td className="w-[110px] h-[35px] border border-white text-center text-white font-bold text-[17px] leading-[1.21] p-[5px]">
                         {Math.round(device.humidity)}%
                       </td>
-                      <td className="w-[70px] border border-white text-center text-white font-bold text-[9px] leading-[1.21] p-[5px]">
+                      <td className="w-[110px] h-[35px] border border-white text-center text-white font-bold text-[17px] leading-[1.21] p-[5px]">
                         {device.isOpen ? "開" : "閉"}
                       </td>
                     </tr>
@@ -145,10 +146,18 @@ export default function SwitchContent({ activeTab }: SwitchContentProps) {
 
     case "location":
       return (
-        <div className="flex-1 flex justify-center mt-5">
-          <h2 className="text-white font-bold text-[25px] leading-[1.21]">
-            位置情報
-          </h2>
+        <div className="flex-1 flex flex-col items-center mt-5">
+          <div>
+            <h2 className="text-white font-bold text-[25px] leading-[1.21] mb-7">
+              位置情報
+            </h2>
+          </div>
+          <GetWeatherInfo
+            deviceName="dd"
+            temperature="22"
+            location="Suzaka, Nagano"
+            weatherType="sunny"
+          />
         </div>
       );
 
