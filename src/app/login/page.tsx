@@ -48,7 +48,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col w-full max-w-md mx-auto text-foreground bg-background">
+    <div className="min-h-screen flex flex-col w-[500px] mx-auto text-white bg-[#282828]">
       {/* Header */}
       <Header />
       {/* Login Form */}
@@ -59,7 +59,7 @@ export default function LoginPage() {
         >
         {/* Form Title */}
         <div className="flex justify-center items-center gap-[10px] p-[10px]">
-          <h2 className="text-foreground text-center text-base font-bold leading-[1.21]">
+          <h2 className="text-white text-center text-base font-bold leading-[1.21]">
             おかえりなさい！
           </h2>
         </div>
@@ -72,25 +72,25 @@ export default function LoginPage() {
         )}
 
         {/* Username Input */}
-        <div className="w-full h-[47px] relative border border-border rounded-[5px]">
+        <div className="w-full h-[47px] relative border border-white rounded-[5px]">
           <Input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="ユーザー名"
             disabled={isLoading}
-            className="w-full h-full bg-transparent border-none text-foreground placeholder:text-muted-foreground text-base font-normal leading-[1.21] px-[18px] py-[13px] focus:outline-none focus:ring-0 focus-visible:ring-0"
+            className="w-full h-full bg-transparent border-none text-white placeholder:text-white text-base font-normal leading-[1.21] px-[18px] py-[13px] focus:outline-none focus:ring-0 focus-visible:ring-0"
           />
         </div>
 
         {/* Password Input */}
-        <div className="w-full h-[47px] relative border border-border rounded-[5px]">
+        <div className="w-full h-[47px] relative border border-white rounded-[5px]">
           <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="パスワード"
             disabled={isLoading}
-            className="w-full h-full bg-transparent border-none text-foreground placeholder:text-muted-foreground text-base font-normal leading-[1.21] px-[18px] py-[13px] focus:outline-none focus:ring-0 focus-visible:ring-0"
+            className="w-full h-full bg-transparent border-none text-white placeholder:text-white text-base font-normal leading-[1.21] px-[18px] py-[13px] focus:outline-none focus:ring-0 focus-visible:ring-0"
           />
         </div>
 
@@ -99,7 +99,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-primary-foreground font-bold text-xs leading-[1.21] py-2 px-0 rounded-[5px]"
+            className="w-full bg-[#4360F0] hover:bg-[#4360F0]/90 disabled:opacity-50 text-white font-bold text-xs leading-[1.21] py-2 px-0 rounded-[5px]"
           >
             {isLoading ? "ログイン中..." : "ログイン"}
           </Button>
@@ -107,11 +107,11 @@ export default function LoginPage() {
 
         {/* Signup Link */}
         <div className="w-full flex justify-center items-center p-[5px] mt-4">
-          <span className="text-foreground text-sm">
+          <span className="text-white text-sm">
             アカウントをお持ちでない方は{" "}
             <a
               href="/signup"
-              className="text-primary hover:text-primary/80 underline font-medium"
+              className="text-[#4360F0] hover:text-[#4360F0]/80 underline font-medium"
             >
               新規登録
             </a>
